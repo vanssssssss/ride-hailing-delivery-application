@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const pointSchema = require('./schemas/pointSchema')
+const pointSchema = require('./schemas/pointSchema.js')
 
 const OrderSchema = new mongoose.Schema({
     userId:{
