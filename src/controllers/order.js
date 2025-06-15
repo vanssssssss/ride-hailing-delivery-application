@@ -34,7 +34,13 @@ const placeOrder = async(req,res) => {
 }
 
 const trackOrder = async(req,res) => {
-    res.status(200).send('tracking order')
-}
+    const {orderId} = req.params
+    const order = await Order.findById(orderId)
+    const {cabId,orderStatus} = order
 
+    const Cab = await cab.findById(cabId)
+    const cabLocation = Cab.location.coordinates
+
+    res.status(200).json({orderId, orderStatus, cabLocation })
+}
 module.exports = {placeOrder,trackOrder}
