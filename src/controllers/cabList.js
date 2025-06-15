@@ -1,77 +1,36 @@
 const cabList = require('../models/cab')
+const cab = require('../models/cab')
 
 const getAllCabs = async (req,res) => {
     try{
-        const cab = await cabList.find({})
-        if(!cab){
-            return res.status(400).send('No cab found')
-        }
-        res.status(200).json(cab)
+         if(!req.body.pickup || !req.body.dropoff){
+             return res.status(400).send('Please provide credentials')
+         }
+         const userLon = req.body.pickup.coordinates[0]
+         const userLat = req.body.pickup.coordinates[1]
+     
+         const nearbyCabs = await cab.find({
+             location:{
+                 $near:{
+                     $geometry:{type:'Point', coordinates:[userLon, userLat]},
+                     $maxDistance: 2000
+                 }
+             },
+             status:'Available'
+         }).exec()
+     
+         if(!nearbyCabs){
+             return res.status(400).send('NO AVAILABLE CAB RN. TRY AGAIN LATER')
+         }
+
+         res.status(200).json({nearbyCabs})
+
     }catch(err){
         res.status(401).json({msg:err})
     }
     
 }
 
-const createCab = async (req,res) => {
-    try{
-        const cab = await cabList.create(req.body)
-        res.status(200).json(cab)
-    }catch(err){
-        console.log(err)
-        res.status(401).json({msg:err})
-    }
-}
-
-const getCab = async(req,res) => {
-    const {cabId} = req.params
-    try{
-        const cab = await cabList.findOne({_id:cabId})
-        if(!cab){
-            return res.status(400).send('No cab found')
-        }
-        res.status(200).json(cab)
-    }catch(err){
-        console.log(err)
-        res.status(401).json({msg:err})
-    }
-}
-
-const updateCab = async (req,res) =>{
-    const {cabId} = req.params
-    try{
-        const cab = await cabList.findOneAndUpdate({_id:cabId},req.body,{
-            new:true,
-            runValidators : true
-        })
-        if(!cab){
-            return res.status(400).send('No cab found')
-        }
-        res.status(200).json(cab)
-    }catch(err){
-        console.log(err)
-        res.status(401).json({msg:err})
-    }
-}
-
-const deleteCab =  async (req,res) =>{
-    const {cabId} = req.params
-    try{
-        const cab = await cabList.findOneAndDelete({_id:cabId})
-        if(!cab){
-            return res.status(400).send('No cab found')
-        }
-        res.status(200).json(cab)
-    }catch(err){
-        console.log(err)
-        res.status(401).json({msg:err})
-    }
-}
-
 module.exports = {
-    getAllCabs,   
-    createCab,
-    getCab,
-    updateCab,
-    deleteCab
+    getAllCabs
 }
