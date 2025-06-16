@@ -38,7 +38,7 @@ Run the server
 npm start
 ```
 
-The backend will run on: http://localhost:3000 (you can set port in environment of server)
+The backend will run on: http://localhost:3000 (or as set in environment variable)
 
 
 # API Endpoints
