@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon server.js",
+    "test":"jest"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,9 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
-    "@types/node": "^22.15.29"
+    "@types/node": "^22.15.29",
+    "jest": "^30.0.0",
+    "mongodb-memory-server": "^10.1.4",
+    "supertest": "^7.1.1"
   }
 }

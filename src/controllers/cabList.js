@@ -20,13 +20,13 @@ const getAllCabs = async (req,res) => {
          }).exec()
      
          if(!nearbyCabs){
-             return res.status(400).send('NO AVAILABLE CAB RN. TRY AGAIN LATER')
+            return res.status(200).json({msg: 'NO avaialable cabs. try again later',nearbyCabs})
          }
 
          res.status(200).json({nearbyCabs})
 
     }catch(err){
-        res.status(401).json({msg:err})
+        res.status(400).json({msg:err})
     }
     
 }
