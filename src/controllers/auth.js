@@ -8,7 +8,7 @@ const register = async(req,res) =>{
     res.status(200).json({success:true})
 }
 
-const login = async(req,res) =>{
+const login = async(req,res) =>{ 
     const {email,password} = req.body
     if(!email || !password){
         return res.status(400).send("Please provide credentials")
@@ -18,14 +18,14 @@ const login = async(req,res) =>{
     if(!matchingUser){
         return res.status(401).send("Invalid email or password")
     }
-
-    const verifyPassword = matchingUser.verifyPassword(password)
+    
+    const verifyPassword = await matchingUser.verifyPassword(password)
     if(!verifyPassword){
         return res.status(401).send("Invalid email or password")
     }
 
     const token = matchingUser.createToken()
-    res.status(200).json(token)
+    res.status(200).json({token})
 }
 
 

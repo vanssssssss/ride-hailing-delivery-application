@@ -7,12 +7,11 @@ require('dotenv').config({path : '.env.test'})
 const app= require('../../app')
 const cabList = require('../models/cab')
 const User = require('../models/user')
-const { beforeEach } = require('node:test')
 
 let mongoServer
 
 describe('POST /api/v1/cabs',  () => {
-    let token,res
+    let token
     beforeEach(async() => {
         await request(app)
             .post('/api/v1/auth/register')
@@ -88,7 +87,7 @@ describe('POST /api/v1/cabs',  () => {
 
         const response = await request(app)
             .post('/api/v1/cabs')
-            // .set('Authorization',`Bearer ${token}`)
+            .set('Authorization',`Bearer ${token}`)
             .send({
                 pickup:{
                     type:"Point",
@@ -132,7 +131,7 @@ describe('POST /api/v1/cabs',  () => {
 
         const response = await request(app)
             .post('/api/v1/cabs')
-            // .set('Authorization',`Bearer ${token}`)
+            .set('Authorization',`Bearer ${token}`)
             .send({
                 pickup:{
                     type:"Point",
@@ -175,7 +174,7 @@ describe('POST /api/v1/cabs',  () => {
 
         const response = await request(app)
             .post('/api/v1/cabs')
-            // .set('Authorization',`Bearer ${token}`)
+            .set('Authorization',`Bearer ${token}`)
             .send({
                 pickup:{
                     type:"Point",
@@ -194,7 +193,7 @@ describe('POST /api/v1/cabs',  () => {
 
         const response = await request(app)
             .post('/api/v1/cabs')
-            // .set('Authorization',`Bearer ${token}`)
+            .set('Authorization',`Bearer ${token}`)
             .send({
                 dropoff:{
                     type:"Point",
@@ -208,7 +207,7 @@ describe('POST /api/v1/cabs',  () => {
 
         const response = await request(app)
             .post('/api/v1/cabs')
-            // .set('Authorization',`Bearer ${token}`)
+            .set('Authorization',`Bearer ${token}`)
             .send({
                 pickup:{
                     type:"Point",
