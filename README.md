@@ -68,8 +68,8 @@ npm test
 
 - Cabs filtered by pickup location (Geospatial Query)
 
-- Automatically books the nearest available cab
-
+- Automatically books the nearest available cab on order placement
+  
 - Creates a new ride order with pickup & dropoff location
 
 - Price calculation based on distance between pickup and dropoff
