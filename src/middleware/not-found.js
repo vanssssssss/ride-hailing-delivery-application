@@ -1,5 +1,8 @@
+const {notFoundError} = require('../errors/index')
+
+
 const notFound = (req,res) =>{
-    res.status(404).send("Route does not exist")
+    throw new notFoundError('Route does not exist')
 }
 
 module.exports = notFound

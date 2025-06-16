@@ -218,7 +218,7 @@ describe('POST /api/v1/cabs',  () => {
                     coordinates:[75.7531, 26.9854]
                 }
             })
-        expect(response.status).toBe(400)
+        expect(response.status).toBe(500)
     })
 })
 

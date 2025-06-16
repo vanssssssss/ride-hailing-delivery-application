@@ -2,10 +2,13 @@ const User = require('../models/user')
 const cab = require('../models/cab')
 const Order = require('../models/order')
 const {getPrice} = require('../services/order')
+const { StatusCodes } = require('http-status-codes')
+const {badRequestError,UnauthenticateddError,notFoundError} = require('../errors/index')
+
 
 const placeOrder = async(req,res) => {
     if(!req.body.pickup || !req.body.dropoff){
-        return res.status(400).send('Please provide credentials')
+        throw new badRequestError('Please provide credentials')
     }
     const userLon = req.body.pickup.coordinates[0]
     const userLat = req.body.pickup.coordinates[1]
@@ -21,7 +24,7 @@ const placeOrder = async(req,res) => {
     })
 
     if(!nearbyCabs){
-        return res.status(400).send('NO AVAILABLE CAB RN. TRY AGAIN LATER')
+        return res.status(StatusCodes.OK).json({msg: 'NO avaialable cabs. try again later',nearbyCabs})
     }
 
     await cab.findByIdAndUpdate(nearbyCabs._id,{status:'Booked'})
@@ -29,8 +32,7 @@ const placeOrder = async(req,res) => {
     const price = getPrice(req.body.pickup,req.body.dropoff)
     const order = await Order.createOrder(req.user,nearbyCabs,req.body.pickup,req.body.dropoff,price)
     
-    // console.log(order)
-    res.status(200).json({success:'Order placed successfully',data:order})
+    res.status(StatusCodes.OK).json({success:'Order placed successfully',data:order})
 }
 
 const trackOrder = async(req,res) => {
@@ -41,6 +43,6 @@ const trackOrder = async(req,res) => {
     const Cab = await cab.findById(cabId)
     const cabLocation = Cab.location.coordinates
 
-    res.status(200).json({orderId, orderStatus, cabLocation })
+    res.status(StatusCodes.OK).json({orderId, orderStatus, cabLocation })
 }
 module.exports = {placeOrder,trackOrder}
